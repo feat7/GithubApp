@@ -5,7 +5,7 @@ import {
   View
 } from 'react-native';
 import { Container, Header, Item, Input, Icon, Button, Text, Spinner, Content,
-List, ListItem, Thumbnail, Left, Body } from 'native-base';
+List, ListItem, Thumbnail, Left, Body, Right } from 'native-base';
 
 export default class GithubApp extends Component {
 
@@ -72,9 +72,9 @@ export default class GithubApp extends Component {
         <Content>
           { 
             this.state.loading ? <Spinner /> : <List dataArray={this.state.results.items} renderRow={(item) =>
-                                <ListItem avatar button>
+                                <ListItem avatar>
                                     <Left>
-                                    <Thumbnail square size={80} source={{uri: item.owner.avatar_url}} />
+                                    <Thumbnail size={80} source={{uri: item.owner.avatar_url}} />
                                     </Left>
                                     <Body>
                                     <View><Text>Name: <Text style={{fontWeight: '600', color: '#46ee4b'}}>{item.name}</Text></Text></View>
@@ -82,6 +82,9 @@ export default class GithubApp extends Component {
                                     <View><Text style={{color:'#007594'}}>{item.full_name}</Text></View>
                                     <View><Text note>Score: <Text note style={{marginTop: 5}}>{item.score}</Text></Text></View>
                                     </Body>
+                                    <Right>
+                                      <Icon name="ios-bookmark-outline" />
+                                    </Right>
                                 </ListItem>
                             } />
           }
