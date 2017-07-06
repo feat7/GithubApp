@@ -14,7 +14,7 @@ export default class GithubApp extends Component {
         this.state = {
             loading: true,
             modalVisible: false,
-            search: 'medium-scrapper',
+            search: 'feat7',
             selectedItem: undefined,
             results: {
                 items: []
@@ -33,7 +33,7 @@ export default class GithubApp extends Component {
       });
       var that = this;
 
-      return fetch('https://api.github.com/search/repositories?q='+this.state.search)
+      return fetch('https://api.github.com/users/'+this.state.search+'/starred')
             .then((response) => response.json())
             .then((responseJson) => {
               this.setState({
@@ -61,7 +61,7 @@ export default class GithubApp extends Component {
         <Header searchBar rounded>
           <Item>
             <Icon name="logo-github" />
-            <Input placeholder="Search" onChangeText={(text) => this.setState({search:text})}
+            <Input placeholder="Github Username" onChangeText={(text) => this.setState({search:text})}
              onSubmitEditing={() => this.search()} value={this.state.search} />
             <Icon name="ios-search" onPress={() => this.search()} />
           </Item>
@@ -71,7 +71,7 @@ export default class GithubApp extends Component {
         </Header>
         <Content>
           { 
-            this.state.loading ? <Spinner /> : <List dataArray={this.state.results.items} renderRow={(item) =>
+            this.state.loading ? <Spinner /> : <List dataArray={this.state.results} renderRow={(item) =>
                                 <ListItem avatar>
                                     <Left>
                                     <Thumbnail size={80} source={{uri: item.owner.avatar_url}} />
@@ -80,7 +80,7 @@ export default class GithubApp extends Component {
                                     <View><Text>Name: <Text style={{fontWeight: '600', color: '#46ee4b'}}>{item.name}</Text></Text></View>
 
                                     <View><Text style={{color:'#007594'}}>{item.full_name}</Text></View>
-                                    <View><Text note>Score: <Text note style={{marginTop: 5}}>{item.score}</Text></Text></View>
+                                    <View><Text note>{item.stargazers_count}<Text note style={{marginTop: 5}}><Icon name='ios-star' style={{fontSize: 12}}/></Text></Text></View>
                                     </Body>
                                     <Right>
                                       <Icon name="ios-bookmark-outline" />
