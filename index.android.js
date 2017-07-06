@@ -17,7 +17,7 @@ export default class GithubApp extends Component {
             search: 'feat7',
             selectedItem: undefined,
             results: {
-                items: []
+                
             }
         }
     }
@@ -52,6 +52,26 @@ export default class GithubApp extends Component {
             })
     }
 
+    showList() {
+      return (this.state.results.length > 0)  ? ( <List dataArray={this.state.results} renderRow={(item) =>
+                                <ListItem avatar>
+                                    <Left>
+                                    <Thumbnail size={80} source={{uri: item.owner.avatar_url}} />
+                                    </Left>
+                                    <Body>
+                                    <View><Text><Text style={{fontWeight: '100', color: '#111111'}}>{item.name}</Text></Text></View>
+
+                                    <View><Text style={{color:'#007594'}}>{item.full_name}</Text></View>
+                                    <View><Text note>{item.stargazers_count}<Text note style={{marginTop: 5}}> <Icon name='ios-star' style={{fontSize: 14}}/></Text></Text></View>
+                                    </Body>
+                                    <Right>
+                                      <Icon name="ios-bookmark-outline" />
+                                    </Right>
+                                </ListItem> } />
+
+              ) : <View><Text>Nothing was found</Text></View>;
+    }
+
   render() {
 
     var that = this;
@@ -71,22 +91,7 @@ export default class GithubApp extends Component {
         </Header>
         <Content>
           { 
-            this.state.loading ? <Spinner /> : <List dataArray={this.state.results} renderRow={(item) =>
-                                <ListItem avatar>
-                                    <Left>
-                                    <Thumbnail size={80} source={{uri: item.owner.avatar_url}} />
-                                    </Left>
-                                    <Body>
-                                    <View><Text>Name: <Text style={{fontWeight: '600', color: '#46ee4b'}}>{item.name}</Text></Text></View>
-
-                                    <View><Text style={{color:'#007594'}}>{item.full_name}</Text></View>
-                                    <View><Text note>{item.stargazers_count}<Text note style={{marginTop: 5}}><Icon name='ios-star' style={{fontSize: 12}}/></Text></Text></View>
-                                    </Body>
-                                    <Right>
-                                      <Icon name="ios-bookmark-outline" />
-                                    </Right>
-                                </ListItem>
-                            } />
+            this.state.loading ? <Spinner /> : this.showList()
           }
         </Content>
       </Container>
